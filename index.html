@@ -2,94 +2,54 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LabBot</title>
   <style>
-    #chat {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 320px;
-      max-height: 500px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-      background: white;
-      display: flex;
-      flex-direction: column;
-    }
-    #chatlog {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-      font-size: 14px;
-    }
-    #inputarea {
-      display: flex;
-      border-top: 1px solid #ccc;
-    }
-    #inputarea input {
-      flex: 1;
-      border: none;
-      padding: 10px;
-      font-size: 14px;
-    }
-    #inputarea button {
-      background: #007bff;
+    body {
+      background-color: #2c2c2c;
       color: white;
+      font-family: sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .bot-container {
+      position: relative;
+      width: 400px;
+      height: 600px;
+    }
+
+    .bot-overlay {
+      position: absolute;
+      bottom: 12px;
+      right: 16px;
+      width: 100px;
+      height: 18px;
+      background-color: white;
+      z-index: 999;
+      border-radius: 2px;
+    }
+
+    iframe {
       border: none;
-      padding: 10px 15px;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div id="chat">
-    <div id="chatlog"></div>
-    <div id="inputarea">
-      <input type="text" id="userinput" placeholder="Escribí tu consulta...">
-      <button onclick="sendMessage()">Enviar</button>
-    </div>
+
+  <div class="bot-container">
+    <iframe
+      src="https://app.paal.ai/cs?bid=108ad4b6"
+      width="400"
+      height="600">
+    </iframe>
+    <div class="bot-overlay"></div>
   </div>
 
-  <script>
-    const apiURL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLhUJpvbSukJkgWY3mKOSoWzdzuSGRtiABjYoyxNtBZd2aToKuteS-fGW-p17COVXL2E53d3syGblDjpaSZnDDmpcszedtqBJ-YPPbFzxwkoWjoYeFQ9HUsWRlALJsnQ_PnbA-9ZMDZ8KWrlPtBywAmm_Y5JIXSiY7qmBb7YxRyPo9m0zFcq8LZkCfRF3xlJF3uZMpCd7fMw8-1AW6GtsOWtwJK1gl9HGqO0JuR0SiDjpwU5fWRzIKPJ78HwI7wL1Q5PdHCt7RtMjhBlZJsX3UqWR9gU7w&lib=MAMTywPPzuSsaU5OoXxVymP6KBYv-fKGw";
-
-    async function sendMessage() {
-      const input = document.getElementById("userinput");
-      const message = input.value.trim();
-      if (!message) return;
-
-      addToChatLog("🧑‍🔧: " + message);
-      input.value = "";
-
-      const query = encodeURIComponent(message.toLowerCase());
-      const response = await fetch(apiURL + "?q=" + query);
-      const text = await response.text();
-
-      try {
-        const data = JSON.parse(text);
-        let reply = "";
-        data.forEach(item => {
-          reply += `📦 <b>${item.nombre}</b><br>`;
-          reply += `💰 Precio lista: $${item.precio}<br>`;
-          reply += `🔖 Precio descuento: $${item.descuento}<br>`;
-          reply += `📄 Trazabilidad: ${item.trazabilidad}<br><br>`;
-        });
-        addToChatLog("🤖: " + reply);
-      } catch (e) {
-        addToChatLog("🤖: " + text);
-      }
-    }
-
-    function addToChatLog(text) {
-      const log = document.getElementById("chatlog");
-      const msg = document.createElement("div");
-      msg.innerHTML = text;
-      log.appendChild(msg);
-      log.scrollTop = log.scrollHeight;
-    }
-  </script>
 </body>
 </html>
+
+
+  
